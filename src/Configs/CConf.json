@@ -1,0 +1,8 @@
+{
+  "address" : "localhost",
+  "port" : "7775",
+  "mcastAddress" : "230.0.0.1",
+  "mcastPort" : "7776",
+  "rmiName" : "rmi",
+  "rmiPort" : "7777"
+}

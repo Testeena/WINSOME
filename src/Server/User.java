@@ -1,16 +1,18 @@
 package Server;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 
 public class User {
-    private final String username;
-    private final String password;
-    private final Wallet wallet;
-    private final ArrayList<String> tags;
+    private String username;
+    private String password;
+    private Wallet wallet;
+    private HashSet<String> tags;
 
-    public User(String username, String password, ArrayList<String> tags) {
+    public User(){
+
+    }
+
+    public User(String username, String password, HashSet<String> tags) {
         this.username = username;
         this.password = password;
         this.wallet = new Wallet();
@@ -29,7 +31,7 @@ public class User {
         return this.wallet;
     }
 
-    public ArrayList<String> getTags(){
+    public HashSet<String> getTags(){
         return this.tags;
     }
 }

@@ -21,24 +21,23 @@ public class Wallet {
     }
 
     public Double getBitcoinBalance(){
-        double bitcoinvalue = 0;
-
+        double bitcoinvalue = 1;
         try {
             URL url = new URL("https://www.random.org/decimal-fractions/?num=1&dec=10&col=1&format=plain&rnd=new");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
-
             if(connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 BufferedReader inbuff = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 bitcoinvalue = Double.parseDouble(inbuff.readLine());
                 inbuff.close();
             }
             else{
-                System.err.println("HTTP response error: random.org unreachable");
-                return (double)-1;
+                System.err.println("HTTP response error: random.org unreachable, returning WinCoin Balance.");
+                return this.balance;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println(Colors.RED + "getBitcoinBalance() Error, returning WinCoin Balance." + Colors.RESET);
+            return this.balance;
         }
         return this.balance * bitcoinvalue;
     }

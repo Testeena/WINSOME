@@ -3,8 +3,12 @@ package Server;
 import java.sql.Timestamp;
 
 public class Transaction {
-    private final double amount;
-    private final Timestamp timestamp;
+    private double amount;
+    private Timestamp timestamp;
+
+    public Transaction(){
+
+    }
 
     public Transaction(double amount){
         this.amount = amount;

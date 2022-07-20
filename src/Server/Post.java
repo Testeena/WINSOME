@@ -5,14 +5,19 @@ import java.util.HashSet;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Post {
-    private final int postid;
-    private final String username;
-    private final String title;
-    private final String content;
-    private final Timestamp timestamp;
-    private final ConcurrentHashMap<String, Integer> votes;
-    private final HashSet<String> rewinners;
-    private final HashSet<Comment> comments;
+    private  int postid;
+    private String username;
+    private String title;
+    private String content;
+    private Timestamp timestamp;
+    private ConcurrentHashMap<String, Vote> rates;
+    private HashSet<String> rewinners;
+    private HashSet<Comment> comments;
+    private int rewardIterations;
+
+    public Post(){
+
+    }
 
     public Post(int postid, String username, String title, String content) {
         this.postid = postid;
@@ -21,8 +26,9 @@ public class Post {
         this.content = content;
         this.comments = new HashSet<>();
         this.timestamp = new Timestamp(new java.util.Date().getTime());
-        this.votes = new ConcurrentHashMap<>();
+        this.rates = new ConcurrentHashMap<>();
         this.rewinners = new HashSet<>();
+        this.rewardIterations = 1;
     }
 
     public int getPostid() {
@@ -45,8 +51,38 @@ public class Post {
         return timestamp;
     }
 
-    public ConcurrentHashMap<String, Integer> getRates() {
-        return votes;
+    public ConcurrentHashMap<String, Vote> getRates() {
+        return rates;
+    }
+
+    public int getPositiveRates(){
+        int c = 0;
+        for(Vote i : rates.values()){
+            if(i.getRate() > 0) c += i.getRate();
+        }
+        return c;
+    }
+
+    public int getNegativeRates(){
+        int c = 0;
+        for(Vote i : rates.values()){
+            if(i.getRate() < 0) c += i.getRate();
+        }
+        return c;
+    }
+
+    public Boolean ifModifiedSince (Timestamp timestamp){
+        for(Vote vote : this.rates.values()){
+            if(vote.getTimestamp().after(timestamp)){
+                return true;
+            }
+        }
+        for(Comment comment : this.getComments()){
+            if(comment.getTimestamp().after(timestamp)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public HashSet<String> getRewinners() {
@@ -56,8 +92,13 @@ public class Post {
     public HashSet<Comment> getComments() {
         return comments;
     }
-    public void addVote(String username, int vote){
-        this.votes.putIfAbsent(username, vote);
+
+    public int iterateReward(){
+        return this.rewardIterations++;
+    }
+
+    public void addVote(Vote vote){
+        this.rates.putIfAbsent(vote.getAuthor(), vote);
     }
 
     public void addComment(String username, String content){

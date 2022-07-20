@@ -3,9 +3,13 @@ package Server;
 import java.sql.Timestamp;
 
 public class Comment {
-    private final String username;
-    private final String content;
-    private final Timestamp timestamp;
+    private String username;
+    private String content;
+    private Timestamp timestamp;
+
+    public Comment() {
+
+    }
 
     public Comment(String username, String content) {
         this.username = username;
